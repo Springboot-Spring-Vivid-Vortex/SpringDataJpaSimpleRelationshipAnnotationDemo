@@ -21,6 +21,8 @@ JPA can use field access (put `@Id` on a field, as this demo does) or property a
 
 ## Relationships
 
+Before the reference table, read [relationship terms in plain English](relationships.md). In particular, “owning side” does **not** mean “the more important business object”; it only means the side JPA uses to save the link.
+
 | Annotation | Database shape | Owner and common choice |
 | --- | --- | --- |
 | `@OneToOne` | Foreign key with a unique constraint. | The side with `@JoinColumn` owns it. |

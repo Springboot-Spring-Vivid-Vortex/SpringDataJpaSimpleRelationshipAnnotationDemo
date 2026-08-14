@@ -9,6 +9,7 @@ import com.example.jpademo.model.StudentProfile;
 import com.example.jpademo.repository.CourseRepository;
 import com.example.jpademo.repository.DepartmentRepository;
 import com.example.jpademo.repository.StudentRepository;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
@@ -19,6 +20,7 @@ class RelationshipMappingTest {
     @Autowired StudentRepository students;
     @Autowired DepartmentRepository departments;
     @Autowired CourseRepository courses;
+    @Autowired EntityManager entityManager;
 
     @Test
     void oneToOne_cascadesProfileAndMaintainsBothSides() {
@@ -32,27 +34,51 @@ class RelationshipMappingTest {
     }
 
     @Test
-    void oneToMany_cascadesNewCourseAndSetsForeignKeyOwner() {
+    void oneToMany_cascadesNewCoursesAndSetsTheirManyToOneForeignKey() {
         Department department = new Department("Computer Science");
-        Course course = new Course("Databases");
-        department.addCourse(course);
+        department.addCourse(new Course("Databases"));
+        department.addCourse(new Course("Java Basics"));
 
         Department saved = departments.saveAndFlush(department);
 
-        assertThat(saved.getCourses()).hasSize(1);
-        assertThat(saved.getCourses().getFirst().getDepartment()).isSameAs(saved);
+        assertThat(saved.getCourses()).hasSize(2);
+        assertThat(saved.getCourses()).allSatisfy(course ->
+                assertThat(course.getDepartment()).isSameAs(saved));
+    }
+
+    @Test
+    void manyToOne_isOwnedByCourseAndStoresTheDepartmentForeignKey() {
+        Department department = departments.saveAndFlush(new Department("Physics"));
+        Course course = new Course("Mechanics");
+
+        // We change the owning MANY side directly. This is what writes courses.department_id.
+        course.setDepartment(department);
+        Course savedCourse = courses.saveAndFlush(course);
+        entityManager.clear(); // Prove the association was stored in H2, not just held in Java memory.
+
+        Course reloaded = courses.findById(savedCourse.getId()).orElseThrow();
+        assertThat(reloaded.getDepartment().getId()).isEqualTo(department.getId());
     }
 
     @Test
     void manyToMany_createsEnrollmentThroughOwningStudentSide() {
-        Course course = courses.saveAndFlush(new Course("Spring Data JPA"));
-        Student student = new Student("Ravi");
-        student.enrollIn(course);
+        Department department = new Department("Software Engineering");
+        Course course = new Course("Spring Data JPA");
+        department.addCourse(course);
+        departments.saveAndFlush(department);
 
-        Student saved = students.saveAndFlush(student);
+        Student ravi = new Student("Ravi");
+        Student maya = new Student("Maya");
+        ravi.enrollIn(course);
+        maya.enrollIn(course);
 
-        assertThat(saved.getCourses()).containsExactly(course);
-        assertThat(course.getStudents()).contains(saved);
+        students.saveAndFlush(ravi);
+        students.saveAndFlush(maya);
+        entityManager.clear();
+
+        Course reloadedCourse = courses.findById(course.getId()).orElseThrow();
+        assertThat(reloadedCourse.getStudents()).extracting(Student::getName)
+                .containsExactlyInAnyOrder("Ravi", "Maya");
     }
 
     @Test

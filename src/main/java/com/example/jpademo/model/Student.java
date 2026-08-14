@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -32,6 +33,10 @@ public class Student {
 
     // This is the owning side: it declares the join table and persists association changes.
     @ManyToMany
+    @JoinTable(
+            name = "student_course_enrollments",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
     private Set<Course> courses = new LinkedHashSet<>();
 
     protected Student() { }

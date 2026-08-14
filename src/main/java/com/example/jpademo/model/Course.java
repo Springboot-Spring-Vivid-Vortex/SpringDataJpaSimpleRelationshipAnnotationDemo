@@ -5,6 +5,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -20,7 +21,10 @@ public class Course {
     private Long id;
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // The MANY side owns this relationship because this courses table contains department_id.
+    // Optional false turns the Java rule "a course needs a department" into a database NOT NULL rule.
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
     @ManyToMany(mappedBy = "courses")
