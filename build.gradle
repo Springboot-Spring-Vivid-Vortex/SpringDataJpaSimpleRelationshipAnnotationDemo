@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'A teaching project that demonstrates every common Spring Data JPA relationship annotation (@OneToOne, @OneToMany, @ManyToOne, @ManyToMany, @Embeddable, @ElementCollection, etc.) with small, self-contained, heavily-commented examples.'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Core Spring Data JPA support (Hibernate under the hood) - gives us
+    // JpaRepository, entity managers, transaction management, etc.
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // A minimal set of REST controllers so the relationships can be inspected
+    // over HTTP (e.g. http://localhost:8080/api/departments) as JSON.
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Bean Validation (used sparingly, e.g. @NotBlank) just to show it can
+    // coexist with JPA annotations on the same entity fields.
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // File-based / in-memory database - zero setup required to run the demo.
+    runtimeOnly 'com.h2database:h2'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
