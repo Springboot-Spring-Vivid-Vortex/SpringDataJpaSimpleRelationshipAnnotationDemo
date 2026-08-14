@@ -41,6 +41,17 @@ Start with the short, plain-language guides in [docs](docs/README.md):
 
 The entity source files contain comments beside each mapping. The tests in `src/test` are executable examples proving what each mapping does.
 
+## How to learn from this repository
+
+For each guide, use this loop:
+
+1. Read the simple explanation and run the smallest example mentally.
+2. Open the matching entity class and find the same annotation.
+3. Read the matching test. It proves what is actually stored in H2.
+4. Only then move to cascade, lazy loading, ownership, and production trade-offs.
+
+This order matters. In JPA, unfamiliar terms can make a small foreign-key idea look much more complicated than it is.
+
 ## Important production note
 
 H2 and `create-drop` are deliberately used to keep learning easy: every run starts with an empty database. In production, use your real database (often PostgreSQL) and manage schema changes with Flyway or Liquibase. Do not expose these bidirectional entities directly from a REST controller; use DTOs to avoid recursive JSON and accidental lazy-loading queries.
@@ -48,3 +59,7 @@ H2 and `create-drop` are deliberately used to keep learning easy: every run star
 ## Interview Answer
 
 **What is Spring Data JPA?** It is a Spring module built on JPA that reduces database boilerplate by creating repository implementations for entity classes. JPA maps Java objects and their relationships to tables; Spring Data JPA provides convenient CRUD, paging, sorting, and query support.
+
+**Common follow-up:** *Does Spring Data JPA replace Hibernate?* No. Spring Data JPA is a repository abstraction; Hibernate is commonly the JPA provider that performs the actual object-relational mapping and SQL work.
+
+**Common trap:** `save()` is not a guarantee of an immediate SQL `INSERT`. JPA may delay SQL until flush or transaction commit. The tests use `saveAndFlush()` where immediate database verification matters.

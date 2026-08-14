@@ -39,6 +39,15 @@ For a bidirectional relationship, update **both** Java fields so the objects you
 
 Bidirectional mappings are convenient but add responsibility: JSON serialization can loop from student → courses → students forever, and lazy collections may run unexpected SQL. In REST applications, DTOs are usually safer than returning entities directly. Start with the smallest navigation direction your application needs; add the reverse collection only when it is useful.
 
+## Common interview questions and traps
+
+| Question | Short answer | Trap to avoid |
+| --- | --- | --- |
+| What is a foreign key? | A column that refers to a row in another table. | It is a database concept; a Java reference alone does not enforce it. |
+| What does `mappedBy` do? | It marks the inverse side and names the owning Java field. | It is not a column name and does not create a new mapping. |
+| Do both sides save a bidirectional relationship? | No; the owning side writes the link. | Still update both Java objects so in-memory state is correct. |
+| Is bidirectional always better? | No; it is useful only when navigation is needed both ways. | Extra navigation can create N+1 queries and JSON recursion. |
+
 ## Interview Answer
 
 **What is the difference between the owning and inverse side?** The owning side writes the foreign key or join-table row. The inverse side uses `mappedBy` to describe the same link without creating another database relationship. For a bidirectional association, application code should update both object fields.

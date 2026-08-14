@@ -45,3 +45,7 @@ Always keep both Java objects in sync. The helper `department.addCourse(course)`
 ## Interview Answer
 
 **Which side owns a one-to-many relationship?** Usually the `@ManyToOne` side owns it because its table stores the foreign key. `@OneToMany(mappedBy = "department")` is the inverse Java collection and does not create or update that key itself.
+
+**Common follow-up:** *Why not always use a unidirectional `@OneToMany`?* It can create an unnecessary join table and makes the natural foreign-key model less direct. A child-to-parent `@ManyToOne` is usually simpler and more efficient.
+
+**Interview trap:** `cascade = ALL` and `orphanRemoval = true` solve different problems. Cascade propagates operations; orphan removal deletes a child detached from its parent collection.

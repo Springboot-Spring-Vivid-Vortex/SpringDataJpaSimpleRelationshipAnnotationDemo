@@ -52,3 +52,7 @@ When the join table needs data such as `enrolledAt`, `grade`, or `role`, do **no
 ## Interview Answer
 
 **How does JPA map many-to-many?** With a join table. One entity owns the link using `@JoinTable`; the other uses `mappedBy`. If the join needs its own attributes, replace `@ManyToMany` with a separate entity containing two `@ManyToOne` mappings.
+
+**Common follow-up:** *Why is an `Enrollment` entity usually better in production?* Real enrollment links commonly have their own state—date, grade, status, audit data, or constraints. Giving that link an entity makes those rules explicit and extensible.
+
+**Interview trap:** Never use `CascadeType.REMOVE` on a shared many-to-many association. Removing one student must remove only its join-table links, not shared course rows.

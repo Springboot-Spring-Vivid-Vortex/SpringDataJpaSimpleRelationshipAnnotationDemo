@@ -23,3 +23,11 @@ The demo uses an in-memory H2 database, so no Docker or database setup is needed
 4. [One-to-many](onetomany.md) — the matching collection view.
 5. [Many-to-many](manytomany.md) — a relationship that needs a middle table.
 6. [Annotation reference](annotations.md) — the wider JPA and Spring Data toolkit.
+
+## How to use a guide
+
+Each relationship guide intentionally introduces only one main idea first. Read its small example, then its mapping, then the production advice. Do not try to memorize every attribute at once. The important progression is:
+
+`table column` → `Java field` → `owning side` → `loading and lifecycle options` → `production query behaviour`
+
+That progression mirrors how an experienced Java/Spring engineer should reason about a JPA mapping.

@@ -47,3 +47,7 @@ private Student student;
 ## Interview Answer
 
 **How do you map a one-to-one relationship in JPA?** Put `@OneToOne` and `@JoinColumn` on the owning side, and ensure the foreign key is unique. Add `mappedBy` on the inverse side for a bidirectional mapping. Choose cascade and orphan removal only when the child truly shares the parent’s lifecycle.
+
+**Common follow-up:** *When would you use `@MapsId`?* When the child’s primary key should also be the parent’s primary key. It enforces a very tight one-to-one relationship but is more coupled than the foreign-key-with-unique-constraint approach used here.
+
+**Interview trap:** A plain foreign key without a unique constraint is not a true database one-to-one relationship.

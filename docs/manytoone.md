@@ -45,3 +45,7 @@ The related [one-to-many guide](onetomany.md) explains the parent-side collectio
 ## Interview Answer
 
 **Why is `@ManyToOne` usually the owning side?** The many-side table contains the foreign-key column. Changing the `@ManyToOne` field changes that column, so JPA treats it as the owner of the relationship.
+
+**Common follow-up:** *Why explicitly use `FetchType.LAZY`?* JPA makes to-one associations EAGER by default, which can load departments unexpectedly. Explicit LAZY makes the cost visible; then fetch with a join or entity graph for the specific use case.
+
+**Interview trap:** LAZY is not magic. Accessing a lazy relation after its transaction/session is closed causes `LazyInitializationException`; solve that at the query/service boundary, not by making everything EAGER.

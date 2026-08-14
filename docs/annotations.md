@@ -101,6 +101,18 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
 The first method is a **derived query**: Spring Data reads its name and creates the query. The second is JPQL, a query language that uses Java entity and field names (`Student`, `name`) rather than table names. Use the short derived form for simple conditions; use `@Query` for a clearer complex query.
 
+### Important repository methods, in practical terms
+
+| Method | What it returns / does | Important production detail |
+| --- | --- | --- |
+| `save(entity)` | Returns the managed/saved entity. | New entities are persisted; existing detached entities are merged. Do not ignore its return value when merging. |
+| `findById(id)` | `Optional<T>`. | Use when absence is expected; avoid `getReferenceById` unless a proxy is genuinely useful. |
+| `findAll(Pageable)` | `Page<T>`. | Use pagination for large tables; `findAll()` is not safe for unbounded production data. |
+| `saveAndFlush(entity)` | Saves, then synchronizes pending SQL. | Useful in tests or when a database constraint must be checked now; flushing every write hurts throughput. |
+| `delete(entity)` | Marks/removes the entity. | Cascades and foreign-key constraints determine what happens to related rows. |
+
+`save` is not a replacement for transaction design. In a typical Spring service method, `@Transactional` defines the unit of work; Hibernate detects changes to managed objects at commit (dirty checking) and emits SQL then.
+
 ## Safe habits
 
 1. Put database truth (foreign keys, unique constraints, not-null constraints) in schema mappings or migrations.
@@ -113,3 +125,11 @@ The first method is a **derived query**: Spring Data reads its name and creates 
 ## Interview Answer
 
 **What is the difference between JPA and Spring Data JPA?** JPA is the Java specification for mapping objects, fields, and relationships to a relational database. Spring Data JPA is a Spring project built on JPA that generates repository implementations and adds features such as derived queries, pagination, and auditing support.
+
+**Common follow-ups:**
+
+- *What is Hibernate?* A popular JPA provider—the implementation that manages entities and generates SQL.
+- *What is the persistence context?* The transaction-scoped set of managed entity objects that Hibernate tracks for changes.
+- *When use `@Query` instead of a derived query?* When the method name becomes unclear, or when you need joins, projections, bulk changes, or tuned fetch behaviour.
+
+**Common traps:** `GenerationType.IDENTITY` is simple but can reduce insert batching; `SEQUENCE` is often preferable with PostgreSQL. Do not use automatic DDL creation as a production migration strategy, and do not solve N+1 queries by blindly switching every relation to EAGER.
