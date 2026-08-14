@@ -1,6 +1,10 @@
 # Spring Data JPA learning guide
 
-This folder explains the annotations used by the runnable sample. Read the relationship guides first, then use `annotations.md` as a reference.
+This folder explains the annotations used by the runnable sample. You do not need database knowledge before starting: read the guides in order, then use `annotations.md` as a reference.
+
+## A tiny mental model
+
+Imagine a database as several spreadsheets. A Java **entity** is one row represented as an object. A relationship says how a row in one spreadsheet points to rows in another spreadsheet. For example, one course row has a `department_id` cell that points to its department row.
 
 - [One-to-one](onetone.md): `Student` and `StudentProfile`
 - [One-to-many](onetomany.md): `Department` and its `courses` collection
@@ -10,3 +14,12 @@ This folder explains the annotations used by the runnable sample. Read the relat
 - [Annotation reference](annotations.md): entity, column, identifier, inheritance, queries, auditing, and caveats
 
 The demo uses an in-memory H2 database, so no Docker or database setup is needed.
+
+## Recommended reading order
+
+1. [Relationship vocabulary](relationships.md) — learn the small set of words first.
+2. [One-to-one](onetone.md) — the smallest relationship.
+3. [Many-to-one](manytoone.md) — the most common database relationship.
+4. [One-to-many](onetomany.md) — the matching collection view.
+5. [Many-to-many](manytomany.md) — a relationship that needs a middle table.
+6. [Annotation reference](annotations.md) — the wider JPA and Spring Data toolkit.

@@ -1,5 +1,15 @@
 # Relationship terms in plain English
 
+## Start with one small example
+
+Suppose the `courses` table has this row:
+
+| id | title | department_id |
+| --- | --- | --- |
+| 7 | Databases | 2 |
+
+`department_id = 2` means course 7 belongs to the department whose id is 2. JPA turns that cell into `course.getDepartment()` in Java. This one idea explains most relationship annotations.
+
 | Term | Simple meaning |
 | --- | --- |
 | Entity | A Java class JPA saves as rows in a database table. |
@@ -24,3 +34,11 @@
 ## The important rule
 
 For a bidirectional relationship, update **both** Java fields so the objects you hold in memory agree. Then make sure the owning side is updated, because only that side writes the database relationship. The helper methods in this project (`addCourse` and `enrollIn`) do both jobs.
+
+## Production trade-offs
+
+Bidirectional mappings are convenient but add responsibility: JSON serialization can loop from student → courses → students forever, and lazy collections may run unexpected SQL. In REST applications, DTOs are usually safer than returning entities directly. Start with the smallest navigation direction your application needs; add the reverse collection only when it is useful.
+
+## Interview Answer
+
+**What is the difference between the owning and inverse side?** The owning side writes the foreign key or join-table row. The inverse side uses `mappedBy` to describe the same link without creating another database relationship. For a bidirectional association, application code should update both object fields.
