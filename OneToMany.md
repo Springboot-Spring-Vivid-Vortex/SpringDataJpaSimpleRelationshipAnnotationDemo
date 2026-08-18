@@ -12,13 +12,13 @@ For example:
 
 A department can have many employees, but each employee belongs to one department.
 
-![alt text](image.png)
+![alt text](Images/image.png)
 
-![alt text](image-1.png)
+![alt text](Images/image-1.png)
 
-![alt text](image-2.png)
+![alt text](Images/image-2.png)
 
-![alt text](image-3.png)
+![alt text](Images/image-3.png)
 
 Think of it like:
 
