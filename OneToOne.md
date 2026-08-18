@@ -12,13 +12,13 @@ For example:
 
 A user has one passport, and a passport belongs to one user.
 
-![Image](https://images.openai.com/static-rsc-4/LBgp8FfjRGqf6jBmRnHeKmL034hDhghMO6dg-wsLkM9d8VcJZI9w_r2RKbPYEfvSA-KCVk1sJCH1QQwT6HTjAyKPom3aFwc1_3Hoi8wedI5ywH-KPtKcyfF4mJI9gz0MOMIWqTjOCREareB2B8OVvddbK7rQc8t-FvjWnH1Tin7GrbZudy9EjsOKVt6QJDA6?purpose=fullsize)
+![alt text](Images/OneToOne-image.png)
 
-![Image](https://images.openai.com/static-rsc-4/bfqw-Wdez3dQtexM8MZC024Z7cUvqNICHkjK4GytCYfnqMGxeb5rLOsfc2CNe_A_T4-8TBBRhbtMfLrARCtCbjxn_-75OrKKZvEHcO5M4CeEhMTw7nU85M0DDl4yeMUR2nD_e1wDrUqkbuBDil9FCi2z7SxIT_cj6WPulOydb1xXy2EEZE8N1xwrOtb2CCXh?purpose=fullsize)
+![alt text](Images/OneToOne-image-1.png)
 
-![Image](https://images.openai.com/static-rsc-4/KN-e_tms8UBDWB16wizOwCzyNQmBXvo_Z7OBntu20BJsK1F9ITzb6n8nWZbcN8pgQEdTlLTtvzpSm80gYP-eDAKyasM9L97W7sP_aRUeliFe9-Hz7pGmM_r0oG10jOxokFi_ULGhlQ74yJTECI6k4G1qKPAhgpyevENv7tkZOguQZW5Mzcv8hH_HlgWGv0kJ?purpose=fullsize)
+![alt text](Images/OneToOne-image-2.png)
 
-![Image](https://images.openai.com/static-rsc-4/mAxcfXuP61ldPcycSSXWeMC71HcRKe3LBtkLi_AQUJ1e9QZW1RrSOL3SOrSkTTo96vMVIfj1lY1O9pslELgazZ0A4Jw4iOCuwnz3L9XIKX6dhw1aHy_nKnh0sHW2DGTgah9RCrGl-gzZdNjg5ABGKVTqLvfsu1gYCOra9JKTvVglI4RwistWXiztDWmw0nu2?purpose=fullsize)
+![alt text](Images/OneToOne-image-3.png)
 
 ---
 
@@ -28,10 +28,10 @@ Imagine two tables:
 
 ### `users`
 
-| id | name   |
-| -- | ------ |
-| 1  | Deepak |
-| 2  | Rahul  |
+| id  | name   |
+| --- | ------ |
+| 1   | Deepak |
+| 2   | Rahul  |
 
 ### `passports`
 
